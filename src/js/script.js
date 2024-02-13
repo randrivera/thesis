@@ -17,7 +17,7 @@ function preload() {
   let images = 86;
 
   for (let i = 1; i < images; i++) {
-    path = '/assets/' + str(i) + '.png' // create a path to the image
+    path = '/assets/faces/' + str(i) + '.png' // create a path to the image
     loaded_image = loadImage(path)     // load the image from the path
     imagesFaces.push(loaded_image)             // add the loaded path to ims
   }

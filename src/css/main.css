@@ -1,6 +1,29 @@
 body {
     background-color: black;
+
 }
+
+html {
+    font-family: input-mono, monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+button {
+    font-family: input-mono, monospace;
+    font-weight: 400;
+    font-style: normal;
+
+    background-color: transparent;
+    color: greenyellow;
+    border: none;
+
+}
+
+button:hover {
+    text-decoration: underline;
+}
+
 
 .advance {
     position: absolute;
@@ -12,6 +35,11 @@ body {
     justify-content: space-between;
     height: 50vh;
 
+}
+
+.advance button,
+.backward button {
+    font-size: 1.25em;
 }
 
 .backward {
