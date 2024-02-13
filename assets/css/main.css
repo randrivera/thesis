@@ -1,0 +1,38 @@
+body {
+    background-color: black;
+}
+
+.advance {
+    position: absolute;
+    top: 25vh;
+    right: 10vw;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    justify-content: space-between;
+    height: 50vh;
+
+}
+
+.backward {
+    position: absolute;
+    top: 25vh;
+    left: 10vw;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    justify-content: space-between;
+    height: 50vh;
+
+}
+
+main {
+    z-index: -99999;
+    /* position: absolute; */
+    top: 0;
+}
+
+.gallery {
+    background-color: red;
+    height: 200px;
+}
