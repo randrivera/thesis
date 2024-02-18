@@ -61,6 +61,10 @@ main {
 }
 
 .gallery {
-    background-color: red;
-    height: 200px;
+    height: fit-content;
+}
+
+
+.gallery img {
+    max-width: 30vw;
 }

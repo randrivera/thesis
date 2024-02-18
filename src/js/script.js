@@ -39,6 +39,8 @@ function preload() {
     let loaded_image = loadImage(path)     // load the image from the path
     imagesFaces.push(loaded_image)             // add the loaded path to ims
   }
+
+  
 }
 
 function setup() {
@@ -102,38 +104,64 @@ function setup() {
     const app = initializeApp(firebaseConfig);
 
     const analytics = getAnalytics(app);
+    const db = getDatabase();
+    const reference = ref(db, 'drawings');
+
+    updateGallery();
+
 
   } 
 
   function writeUserData(name, imageURL){
     const db = getDatabase();
-    const reference = ref(db, 'scores');
+    const reference = ref(db, 'drawings');
     push(reference, {
-      username: name,
-      profile_picture: imageURL
+      name: name,
+      canvasImage: imageURL
     }, { merge: true })
   
   }
     
 function saveToGallery(){
-  // let name = prompt("What's your name?");
-  // let canvasContainer = document.getElementById('canvasContainer');
-  let imageUrl = canvas.toBlob(
-    (blob) => {
-      const newImg = document.createElement("img");
-      const url = URL.createObjectURL(blob);
-    },
-    "image/jpeg",
-    0.95,
-  ); // JPEG at 95% quality
+  let name = prompt("What's your name?");
+  let imageUrl = canvas.toDataURL("image/jpeg", 0.5);
   console.log(imageUrl)
-  // writeUserData("test", imageUrl);
-  console.log('completed saveToGallery');
 
-  // updateGallery();
+  // let testImage = document.querySelector('#test-image');
+  // testImage.src = imageUrl
+
+  writeUserData(name, imageUrl);
+  console.log('completed saveToGallery');
+  updateGallery();
 }
 
 function updateGallery(){
+  const db = getDatabase();
+  const reference = ref(db, 'drawings');
+
+  let frankImageCollection = selectAll('.frankImage');
+  for (let i=0; i<frankImageCollection.length;i++){
+    frankImageCollection[i].remove();
+
+  }
+
+  onValue(reference, (snapshot) => {
+    let franks = snapshot.val();
+    let keys = Object.keys(franks);
+    console.log(keys);
+    for (let i=0; i<keys.length; i++){
+      let k = keys[i];
+      let playerNames = franks[k].name;
+      let frankImages = franks[k].canvasImage;
+      console.log(playerNames, frankImages)
+
+      let gallery = document.querySelector(".gallery");
+      let galleryImage = createImg(frankImages);
+      galleryImage.class("frankImage")
+      galleryImage.parent(gallery);
+    }
+  })
+
 
 }
 
