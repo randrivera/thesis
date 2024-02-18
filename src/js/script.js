@@ -1,10 +1,28 @@
+// export const player = {
+//   name: await getPlayerName(),
+//   // imageURL:
+// }
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
 let img;
 let img2;
 let img3;
 
+let currentImage1;
+let currentImage2;
+let currentImage3;
+
 let switcher;
 let switcher2;
-let switcher3
+let switcher3;
+let switcher4;
+let switcher5;
+let switcher6;
+
+let saveButton;
 
 let currentIndex1 = 0;
 let currentIndex2 = 0;
@@ -17,28 +35,15 @@ function preload() {
   let images = 86;
 
   for (let i = 1; i < images; i++) {
-    path = '/assets/faces/' + str(i) + '.png' // create a path to the image
-    loaded_image = loadImage(path)     // load the image from the path
+    let path = '/assets/faces/' + str(i) + '.png' // create a path to the image
+    let loaded_image = loadImage(path)     // load the image from the path
     imagesFaces.push(loaded_image)             // add the loaded path to ims
   }
-
-  // imagesFaces = [
-  //   // loadImage('/assets/01.png'),
-  //   // loadImage('/assets/02.png'),
-  //   // loadImage('/assets/03.png'),
-  // ]
-  // imagesFaces[0] = loadImage('/assets/01.png');
-  // imagesFaces[1] = loadImage('/assets/01.png');
-  // imagesFaces[2] = loadImage('/assets/01.png');
-
-
-  // img = loadImage('/assets/01.png');
-  // img2 = loadImage('/assets/01.png');
-  // img3 = loadImage('/assets/01.png');
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('canvasContainer');
   background('black');
   imageMode(CENTER);
   // image(img, windowWidth/2, windowHeight/2);
@@ -81,13 +86,59 @@ function setup() {
     switcher5.mousePressed(backwardImg2);
     switcher6.mousePressed(backwardImg3);
 
+    saveButton = select('#saveToImage');
+    saveButton.mousePressed(saveToGallery);
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaomt0YCnQ2b67QihmeI9-JlQuXzEVU7I",
+      authDomain: "ai-faces.firebaseapp.com",
+      projectId: "ai-faces",
+      storageBucket: "ai-faces.appspot.com",
+      messagingSenderId: "338300608687",
+      appId: "1:338300608687:web:2f3209570f4bb0d91d745a",
+      measurementId: "G-7FBSYZXNKT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const analytics = getAnalytics(app);
 
   } 
+
+  function writeUserData(name, imageURL){
+    const db = getDatabase();
+    const reference = ref(db, 'scores');
+    push(reference, {
+      username: name,
+      profile_picture: imageURL
+    }, { merge: true })
+  
+  }
     
+function saveToGallery(){
+  // let name = prompt("What's your name?");
+  // let canvasContainer = document.getElementById('canvasContainer');
+  let imageUrl = canvas.toBlob(
+    (blob) => {
+      const newImg = document.createElement("img");
+      const url = URL.createObjectURL(blob);
+    },
+    "image/jpeg",
+    0.95,
+  ); // JPEG at 95% quality
+  console.log(imageUrl)
+  // writeUserData("test", imageUrl);
+  console.log('completed saveToGallery');
+
+  // updateGallery();
+}
+
+function updateGallery(){
+
+}
 
 
 function draw(){
-
 }
 
 function forwardImg(){
@@ -156,4 +207,7 @@ function backwardImg3(){
 }
 
 
-console.log("red")
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
