@@ -5,7 +5,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, push, onValue, child, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 let img;
 let img2;
@@ -107,7 +107,8 @@ function setup() {
     const db = getDatabase();
     const reference = ref(db, 'drawings');
 
-    updateGallery();
+    // updateGallery();
+    
 
 
   } 
